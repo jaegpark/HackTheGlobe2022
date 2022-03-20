@@ -3,6 +3,7 @@ from flask import Flask, request
 import requests
 from twilio.twiml.messaging_response import MessagingResponse
 import utils
+
 app = Flask(__name__)
 # https://timberwolf-mastiff-9776.twil.io/demo-reply
 
@@ -51,7 +52,22 @@ def bot():
                 msg.body("Please enter a valid menu choice.")
             responded = True
         elif utils.bot_state == "form":
-            pass
+            firstName = request.form.get('firstName')
+            try:
+                conn = sqlite3.connect('/Users/khadijashuaib/HTG/HackTheGlobe2022/app.db')
+                cur = conn.cursor()
+                insert_users = ''' INSERT INTO user(user_id, firstName, lastName, age) VALUES(?) '''
+                cur = conn.cursor()
+                cur.execute(insert_users, ['1', firstName, 'Lawal', '22'])
+                conn.commit()
+                return respond(f'Thanks for sending your info!') 
+            except sqlite3.Error as e:
+                print(e)
+            finally:
+                if conn:
+                  conn.close()
+            return respond(f'Uh-oh')
+
         elif utils.bot_state == "rss":
             if 'process' in incoming_msg:
                 msg.body('Here are some helpful links with land processes: https://www.bellanaija.com/2021/12/dennis-isong-excision-of-land-in-nigeria/')
