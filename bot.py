@@ -56,7 +56,12 @@ def bot():
             if 'process' in incoming_msg:
                 msg.body('Here are some helpful links with land processes: https://www.bellanaija.com/2021/12/dennis-isong-excision-of-land-in-nigeria/')
             responded = True
-
+            if 'verified' in incoming_msg:
+                msg.body('List of verified quantity surveyors in Nigeria: https://www.finelib.com/cities/lagos/business/construction/surveyors')
+            responded = True
+            if 'document' in incoming_msg:
+                msg.body('Document required for land registration in Nigeria: https://www.lexology.com/library/detail.aspx?g=fcab8ae2-60b8-4ce6-ab98-af514634843b')
+            responded = True
     if not responded:
         msg.body("Please enter a valid input.")
     return str(resp)
